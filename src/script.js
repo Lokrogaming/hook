@@ -19,6 +19,12 @@ const embedImage = document.getElementById('embedImage');
 const saveMessageCheckbox = document.getElementById('saveMessageCheckbox');
 const savedMessagesDiv = document.getElementById('savedMessages');
 const exportMessagesBtn = document.getElementById('exportMessages');
+const backToSetupBtn = document.getElementById('backToSetup');
+const warningContainer = document.getElementById('warningContainer');
+const proceedBtn = document.getElementById('proceedWarning');
+const discardBtn = document.getElementById('discard');
+
+
 
 let webhooks = JSON.parse(localStorage.getItem('webhooks')) || [];
 let savedMessages = JSON.parse(localStorage.getItem('savedMessages')) || [];
@@ -202,3 +208,32 @@ if(webhooks.length>0){
   updateWebhookSelect();
   renderSavedMessages();
 } else renderWebhooks();
+// ---------- UI ----------
+proceedBtn.addEventListener("click", () => {
+
+if (warningContainer.style.display === "block") {
+  warningContainer.style.display = "none";
+  setupDiv.style.display = "block"
+  renderWebhooks();
+}
+
+})
+
+discardBtn.addEventListener("click", () => {
+
+if (warningContainer.style.display === "block") {
+  warningContainer.style.display = "none";
+  mainDiv.style.display = "block";
+  renderSavedMessages();
+}
+
+})
+
+
+
+
+
+backToSetupBtn.addEventListener("click", () => {
+  mainDiv.style.display = "none";
+  warningContainer.style.display = "block";
+});

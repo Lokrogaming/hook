@@ -19,8 +19,17 @@
   <div id="webhookList"></div>
   <button id="confirmSetup" disabled>Bestätigen</button>
 </div>
-
+<div style="display:none;" id="warningContainer" class="warningContainer">
+  <h1>Warning</h1>
+  <p>Do you want to proceed? All of your messages and webhooks could be removed. </p>
+  <div class="btnUtilWarning">
+    <button id="proceedWarning" class="warning warningBorder">Proceed</button>
+    <button id="discard">Discard</button>
+  </div><br><br>
+  If you have problems please open a support ticket on our discord server
+</div>
 <div class="container" id="main" style="display:none;">
+  <button id="backToSetup" class="red">Back to setup</button>
   <h2>Nachricht senden</h2>
   <select id="webhookSelect"></select>
   <textarea id="messageInput" rows="4" placeholder="Nachricht eingeben..."></textarea>

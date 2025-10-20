@@ -8,7 +8,7 @@ h1 {margin-top:40px;font-weight:600;color:#fff;letter-spacing:1px;}
 .container {width:90%; max-width:600px; background:#2b2d31; border-radius:10px; padding:25px; margin-top:25px; box-shadow:0 0 20px rgba(0,0,0,0.3);}
 input, textarea, select {width:100%; padding:12px; background:#1e1f22; border:1px solid #1e1f22; border-radius:8px; color:#dcddde; margin-top:10px; font-size:15px; transition:border 0.2s;}
 input:focus, textarea:focus {border:1px solid #5865f2; outline:none;}
-button {width:100%; padding:12px; border:none; border-radius:8px; background:#5865f2; color:#fff; font-weight:600; font-size:15px; cursor:pointer; transition:0.2s; margin-top:12px;}
+button {width:100%; padding:12px; border:none; border-radius:8px; background:#5865f2; color:#fff; font-weight:600; font-size:15px; cursor:pointer; transition:0.3s; margin-top:12px;}
 button:hover:not(:disabled){background:#4752c4;}
 button:disabled{background:#3a3c43; cursor:not-allowed; color:#8e9297;}
 .webhook-item, .message-item {display:flex; justify-content:space-between; align-items:center; background:#1e1f22; border-radius:8px; padding:10px 14px; margin-top:8px; font-size:14px;}
@@ -26,3 +26,33 @@ input.error, textarea.error {border: 1px solid #ed4245;   /* Discord-Rot */
 @keyframes shake {0% { transform: translateX(0); }25% { transform: translateX(-3px); }50% { transform: translateX(3px); }75% { transform: translateX(-3px); }100% { transform: translateX(0); }}
 /* Optional: kleine Fehlermeldung unter dem Input */
 .input-error-msg {color: #ed4245;font-size: 12px;margin-top: 4px;font-weight: 500;}
+.red{background-color:rgba(255, 0, 0, 0.63) ;}
+button.red:hover{background-color: rgba(255, 0, 0,0.25)}
+.warningContainer{
+    background-color: red;
+    border: none;
+    border-radius: 13px;
+    height:500px;
+    width:500px;
+    color:white;
+    align-items:center;
+    display:flex;
+    flex-direction:column;
+    justify-content: center;
+    font-family: "Varela Round";
+    font-weight: bolder;
+    padding:30px;
+}
+.btnUtilWarning{
+    display: flex;
+gap: 10px;
+padding: 13px;
+}
+.btnUtilWarning button{
+    width: 250px;
+}
+.warningBorder{
+    border: #420000 solid 2px;
+    background-color: rgba(0, 0, 0, 0.3) 
+}
+.warning:hover {background-color:rgba(255, 0, 0, 0.63) !important; }
