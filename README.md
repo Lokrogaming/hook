@@ -5,15 +5,15 @@
 
 ## 📋 Beschreibung
 
-Portfoleez ist ein moderner, benutzerfreundlicher Portfolio-Builder, der es jedem ermöglicht, in wenigen Minuten ein professionelles Online-Portfolio zu erstellen. Die Anwendung ist vollständig im Browser lauffähig und benötigt keine Backend-Infrastruktur.
+LokroHook ist ein einfacher Nachrichtensender, der für Discord Webhooks gebaut ist. Er ist einfach zu benutzen, aber dennoch aktuell in der Testphase.
 
 ## ✨ Funktionsweise
 
 ### Hauptfunktionen:
 
-1. **Echtzeit-Vorschau**: Alle Änderungen werden sofort in der Vorschau angezeigt
-2. **LocalStorage-Speicherung**: Portfolios werden automatisch im Browser gespeichert
-3. **HTML-Export**: Fertige Portfolios können als eigenständige HTML-Datei heruntergeladen werden
+1. **Echtzeit-Senden**: Alle Nachrichten werden in Echtzeit gesendet
+2. **LocalStorage-Speicherung**: Nachrichten werden automatisch im Browser gespeichert
+3. **Export**: Fertige Nachrichten können als eigenständige Text-Dateien heruntergeladen werden
 4. **Responsives Design**: Optimiert für Desktop und mobile Geräte
 5. **Keine Registrierung erforderlich**: Sofort einsatzbereit
 
