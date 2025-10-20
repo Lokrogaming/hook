@@ -3,28 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <title>LokroHook Sender</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Whitney:wght@400;500;600&display=swap');
-  * { box-sizing: border-box; }
-  body { font-family: 'Whitney','Arial',sans-serif; background:#313338; color:#dcddde; margin:0; padding:0; display:flex; flex-direction:column; align-items:center; min-height:100vh;}
-  h1 {margin-top:40px;font-weight:600;color:#fff;letter-spacing:1px;}
-  .container {width:90%; max-width:600px; background:#2b2d31; border-radius:10px; padding:25px; margin-top:25px; box-shadow:0 0 20px rgba(0,0,0,0.3);}
-  input, textarea, select {width:100%; padding:12px; background:#1e1f22; border:1px solid #1e1f22; border-radius:8px; color:#dcddde; margin-top:10px; font-size:15px; transition:border 0.2s;}
-  input:focus, textarea:focus {border:1px solid #5865f2; outline:none;}
-  button {width:100%; padding:12px; border:none; border-radius:8px; background:#5865f2; color:#fff; font-weight:600; font-size:15px; cursor:pointer; transition:0.2s; margin-top:12px;}
-  button:hover:not(:disabled){background:#4752c4;}
-  button:disabled{background:#3a3c43; cursor:not-allowed; color:#8e9297;}
-  .webhook-item, .message-item {display:flex; justify-content:space-between; align-items:center; background:#1e1f22; border-radius:8px; padding:10px 14px; margin-top:8px; font-size:14px;}
-  .small-btn{background:#d83c3e;color:white;width:auto;padding:6px 12px;font-size:13px;}
-  .small-btn:hover{background:#b53335;}
-  .embed-section{display:none; margin-top:10px; border-top:1px solid #40444b; padding-top:10px;}
-  h2,h3{color:#fff;margin-top:10px;}
-  #messages .webhook-item,#savedMessages .message-item{background:#2b2d31;font-size:13px;}
-  .webhook-item span,.message-item span{white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:80%; display:inline-block;}
-</style>
+<link rel="stylesheet" href="src/style.css">
 </head>
 <body>
-<h1>LokroHook</h1>
+  
+
+<h1 class="varelaRound glow-white-dim">LokroHook</h1>
 
 <div class="container" id="setup">
   <h2>Webhook Setup</h2>
@@ -56,147 +40,10 @@
 
   <h3>Gespeicherte Nachrichten</h3>
   <div id="savedMessages"></div>
+
+  <button id="exportMessages">Gespeicherte Nachrichten exportieren</button>
 </div>
 
-<script>
-const webhookInput = document.getElementById('webhookInput');
-const webhookInputName = document.getElementById('webhookInputName');
-const webhookAvatar = document.getElementById('webhookAvatar');
-const addWebhookBtn = document.getElementById('addWebhook');
-const webhookList = document.getElementById('webhookList');
-const confirmSetup = document.getElementById('confirmSetup');
-const setupDiv = document.getElementById('setup');
-const mainDiv = document.getElementById('main');
-const webhookSelect = document.getElementById('webhookSelect');
-const messageInput = document.getElementById('messageInput');
-const sendBtn = document.getElementById('sendBtn');
-const messagesDiv = document.getElementById('messages');
-const toggleEmbed = document.getElementById('toggleEmbed');
-const embedSection = document.getElementById('embedSection');
-const embedTitle = document.getElementById('embedTitle');
-const embedDesc = document.getElementById('embedDesc');
-const embedColor = document.getElementById('embedColor');
-const embedImage = document.getElementById('embedImage');
-const saveMessageCheckbox = document.getElementById('saveMessageCheckbox');
-const savedMessagesDiv = document.getElementById('savedMessages');
-
-let webhooks = JSON.parse(localStorage.getItem('webhooks')) || [];
-let savedMessages = JSON.parse(localStorage.getItem('savedMessages')) || [];
-
-function renderWebhooks() {
-  webhookList.innerHTML='';
-  webhooks.forEach((w,i)=>{
-    const div=document.createElement('div');
-    div.className='webhook-item';
-    div.innerHTML=`<span>${w.name} (${w.url})</span>
-      <button class='small-btn' onclick='removeWebhook(${i})'>Entfernen</button>`;
-    webhookList.appendChild(div);
-  });
-  confirmSetup.disabled = webhooks.length===0;
-}
-function removeWebhook(i){webhooks.splice(i,1);localStorage.setItem('webhooks',JSON.stringify(webhooks));renderWebhooks();}
-
-addWebhookBtn.onclick = () => {
-  const url=webhookInput.value.trim();
-  const name=webhookInputName.value.trim() || 'Webhook';
-  const avatar=webhookAvatar.value.trim() || "https://lokrogaming.github.io/src/assets/icon.png";
-  if(!url.startsWith('https://discord.com/api/webhooks/')) return alert('Ungültiger Webhook-Link!');
-  webhooks.push({name,url,avatar});
-  localStorage.setItem('webhooks',JSON.stringify(webhooks));
-  webhookInput.value=''; webhookInputName.value='Webhook'; webhookAvatar.value='';
-  renderWebhooks();
-};
-
-confirmSetup.onclick = ()=>{
-  setupDiv.style.display='none'; mainDiv.style.display='block'; updateWebhookSelect(); renderSavedMessages();
-};
-
-function updateWebhookSelect(){
-  webhookSelect.innerHTML='';
-  webhooks.forEach((w,i)=>{
-    const opt=document.createElement('option');
-    opt.value=i; opt.textContent=w.name; webhookSelect.appendChild(opt);
-  });
-}
-
-toggleEmbed.onclick = ()=>{embedSection.style.display = embedSection.style.display==='none'?'block':'none';}
-
-function renderSavedMessages(){
-  savedMessagesDiv.innerHTML='';
-  savedMessages.forEach((msg,i)=>{
-    const div=document.createElement('div');
-    div.className='message-item';
-    div.innerHTML=`<span>${msg.content}</span>
-      <button class='small-btn' onclick='sendSavedMessage(${i})'>Senden</button>
-      <button class='small-btn' style="background:#888;margin-left:4px" onclick='deleteSavedMessage(${i})'>Löschen</button>`;
-    savedMessagesDiv.appendChild(div);
-  });
-}
-
-function deleteSavedMessage(i){savedMessages.splice(i,1);localStorage.setItem('savedMessages',JSON.stringify(savedMessages));renderSavedMessages();}
-
-async function sendSavedMessage(i){
-  messageInput.value = savedMessages[i].content;
-  if(savedMessages[i].embed) {
-    embedSection.style.display='block';
-    embedTitle.value=savedMessages[i].embed.title;
-    embedDesc.value=savedMessages[i].embed.desc;
-    embedColor.value=savedMessages[i].embed.color;
-    embedImage.value=savedMessages[i].embed.image;
-  } else embedSection.style.display='none';
-  sendBtn.click();
-}
-
-sendBtn.onclick = async ()=>{
-  const w = webhooks[webhookSelect.value];
-  const message = messageInput.value.trim();
-  if(!message && embedSection.style.display==='none') return alert('Nachricht darf nicht leer sein!');
-  const payload={username:w.name,avatar_url:w.avatar};
-  let embedData=null;
-  if(embedSection.style.display==='block' && embedTitle.value && embedDesc.value){
-    payload.embeds=[{
-      title: embedTitle.value,
-      description: embedDesc.value,
-      color: parseInt(embedColor.value.replace('#',''),16)||16777215,
-      image: embedImage.value?{url:embedImage.value}:undefined
-    }];
-    embedData={title:embedTitle.value,desc:embedDesc.value,color:embedColor.value,image:embedImage.value};
-  } else payload.content=message;
-
-  const res = await fetch(w.url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-  if(res.ok){
-    const data = await res.json().catch(()=>({id:null}));
-    const div=document.createElement('div');
-    div.className='webhook-item';
-    div.dataset.messageId=data.id||'';
-    div.dataset.webhook=w.url;
-    div.innerHTML=`<span>${message||'(Embed gesendet)'}</span>
-      <button class='small-btn delete-btn'>Löschen</button>`;
-    messagesDiv.prepend(div);
-    if(saveMessageCheckbox.checked){
-      savedMessages.push({content:message,embed:embedData});
-      localStorage.setItem('savedMessages',JSON.stringify(savedMessages));
-      renderSavedMessages();
-    }
-    messageInput.value=''; embedTitle.value=''; embedDesc.value=''; embedColor.value=''; embedImage.value=''; saveMessageCheckbox.checked=false;
-  } else alert('Fehler beim Senden!');
-};
-
-messagesDiv.addEventListener('click',async e=>{
-  if(e.target.classList.contains('delete-btn')){
-    const parent=e.target.parentElement;
-    const url=parent.dataset.webhook;
-    const id=parent.dataset.messageId;
-    if(id){
-      const deleteUrl=`${url}/messages/${id}`;
-      await fetch(deleteUrl,{method:'DELETE'}).catch(()=>alert('Fehler beim Löschen auf Discord'));
-    }
-    parent.remove();
-  }
-});
-
-if(webhooks.length>0){setupDiv.style.display='none'; mainDiv.style.display='block'; updateWebhookSelect(); renderSavedMessages();}
-else renderWebhooks();
-</script>
+<script src="src/script.js"></script>
 </body>
 </html>
