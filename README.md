@@ -5,7 +5,7 @@
 
 ## 📋 Beschreibung
 
-LokroHook ist ein einfacher Nachrichtensender, der für Discord Webhooks gebaut ist. Er ist einfach zu benutzen, aber dennoch aktuell in der Testphase.
+LokroHook ist ein einfacher Nachrichtensender, der für Discord Webhooks gebaut ist. Es ist einfach zu benutzen, aber dennoch aktuell in der Testphase.
 
 ## ✨ Funktionsweise
 
