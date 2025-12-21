@@ -179,6 +179,7 @@ sendBtn.onclick = async ()=>{
       messageInput.value=''; embedTitle.value=''; embedDesc.value=''; embedColor.value=''; embedImage.value=''; saveMessageCheckbox.checked=false;
     } else alert('Fehler beim Senden!');
   } catch(e){
+    console.log(res);
     alert('Fehler beim Senden! '+e);
   }
 };
